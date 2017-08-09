@@ -21,9 +21,9 @@ public class KlondikeBoard {
 
 	boolean gameFinished;
 
-	FullDeckStack fullDeck = new FullDeckStack();
+	FullDeckStack fullDeck;
 
-	public List<Stack> stacks = new ArrayList<>();
+	public List<Stack> stacks;
 
 	public Stack holder = new FullDeckStack(new ArrayList<Card>());
 
@@ -32,6 +32,8 @@ public class KlondikeBoard {
 	private Image victoryImage = openImagePath("res/images/victory.png");
 
 	private Image gameOverImage = openImagePath("res/images/gameOver.png");
+	
+	private Image restartImage = openImagePath("res/images/restart.png");
 
 	private Timer soundTimer;
 	private int timesSoFar;
@@ -127,6 +129,9 @@ public class KlondikeBoard {
 		 * 
 		 */
 
+		stacks = new ArrayList<>();
+		fullDeck = new FullDeckStack();
+
 		for (int i = 1; i <= 7; i++) {
 			stacks.add(new PlayStack(fullDeck.dealRandomCardList(i),
 					Card.getCardWidth() / 2 + (Card.getCardWidth() + 10) * i, (int) (Card.getCardHeight() / 1.2)));
@@ -149,6 +154,11 @@ public class KlondikeBoard {
 				if (s.clickWithinBounds(press)) {
 					s.pressAction(press);
 				}
+			}
+		}
+		if (30<=press.getX()&&press.getX()<=70) {
+			if (630<=press.getY()&&press.getY()<=670) {
+				createStacks();
 			}
 		}
 	}
@@ -307,6 +317,8 @@ public class KlondikeBoard {
 		if (checkForGameOver()) {
 			drawGameOverScreen(g);
 		}
+		
+		drawRestartButton(g);
 	}
 
 	public boolean checkForVictory() {
@@ -329,6 +341,10 @@ public class KlondikeBoard {
 
 	public void drawGameOverScreen(Graphics g) {
 		g.drawImage(gameOverImage, 260, 100, 524, 499, null);
+	}
+	
+	public void drawRestartButton(Graphics g) {
+		g.drawImage(restartImage, 30, 630, 40, 40, null);
 	}
 
 	public void playVictorySound() {
