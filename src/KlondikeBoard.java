@@ -5,8 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList;import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -32,11 +31,11 @@ public class KlondikeBoard {
 	private Image victoryImage = openImagePath("res/images/victory.png");
 
 	private Image gameOverImage = openImagePath("res/images/gameOver.png");
-	
+
 	private Image restartImage = openImagePath("res/images/restart.png");
 
 	private Image unmutedImage = openImagePath("res/images/restart.png");
-	
+
 	private boolean muted;
 
 	private Timer soundTimer;
@@ -160,8 +159,8 @@ public class KlondikeBoard {
 				}
 			}
 		}
-		if (30<=press.getX()&&press.getX()<=70) {
-			if (630<=press.getY()&&press.getY()<=670) {
+		if (30 <= press.getX() && press.getX() <= 70) {
+			if (630 <= press.getY() && press.getY() <= 670) {
 				createStacks();
 			}
 		}
@@ -321,7 +320,7 @@ public class KlondikeBoard {
 		if (checkForGameOver()) {
 			drawGameOverScreen(g);
 		}
-		
+
 		drawRestartButton(g);
 	}
 
@@ -346,7 +345,7 @@ public class KlondikeBoard {
 	public void drawGameOverScreen(Graphics g) {
 		g.drawImage(gameOverImage, 260, 100, 524, 499, null);
 	}
-	
+
 	public void drawRestartButton(Graphics g) {
 		g.drawImage(restartImage, 30, 630, 40, 40, null);
 	}
