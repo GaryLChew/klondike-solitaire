@@ -1,11 +1,14 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 
 public class KlondikePanel extends JPanel {
@@ -13,12 +16,26 @@ public class KlondikePanel extends JPanel {
 	Dimension dim = new Dimension(1060,700);
 	Color backGround = new Color(0, 220, 235);
 	KlondikeBoard board = new KlondikeBoard();
+	
+	Timer repaintTimer;
 
 	
 	public KlondikePanel() {
 		this.setPreferredSize(dim);
 		this.setBackground(backGround);
 		setUpMouseListeners();
+		createRepaintTimer();
+	}
+	
+	private void createRepaintTimer() {
+		repaintTimer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				repaint();
+			}
+		});
+		repaintTimer.start();
+		
 	}
 	
 	

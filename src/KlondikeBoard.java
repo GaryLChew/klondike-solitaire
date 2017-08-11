@@ -1,3 +1,4 @@
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -5,7 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -43,11 +45,16 @@ public class KlondikeBoard {
 
 	private Timer songTimer;
 
+	private int movesCount = 0;
+
+	private Timer timeTimer;
+	private int secondsPassed = 0;
+
 	public KlondikeBoard() {
 		setSizes();
 		createStacks();
 		playSong();
-
+		createTimer();
 	}
 
 	private void setSizes() {
@@ -150,6 +157,16 @@ public class KlondikeBoard {
 				(int) (Card.getCardHeight() * 1.5 + 10)));
 	}
 
+	private void createTimer() {
+		timeTimer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				secondsPassed++;
+			}
+		});
+		timeTimer.start();
+	}
+
 	public void pressedAt(MouseEvent press) {
 		if (!gameFinished) {
 			initialClick = press;
@@ -162,6 +179,8 @@ public class KlondikeBoard {
 		if (30 <= press.getX() && press.getX() <= 70) {
 			if (630 <= press.getY() && press.getY() <= 670) {
 				createStacks();
+				movesCount = 0;
+				secondsPassed = 0;
 			}
 		}
 	}
@@ -194,6 +213,8 @@ public class KlondikeBoard {
 							stacks.get(12).moveY -= stacks.get(12).cardSpacing;
 						}
 						playCardSlideSound();
+						movesCount++;
+						System.out.println("movesCount: " + movesCount);
 					}
 					// sometimes, deck does not have cards
 					else {
@@ -252,6 +273,8 @@ public class KlondikeBoard {
 								playCardSlideSound();
 								stacks.get(i).update();
 								stacks.get(selectedIndex).update();
+								movesCount++;
+								System.out.println("movesCount: " + movesCount);
 							}
 						} else if (stacks.get(selectedIndex).cards.get(stacks.get(selectedIndex).indexFirstSelected)
 								.pointValue() == 13) {
@@ -264,6 +287,8 @@ public class KlondikeBoard {
 								playCardSlideSound();
 								stacks.get(i).update();
 								stacks.get(selectedIndex).update();
+								movesCount++;
+								System.out.println("movesCount: " + movesCount);
 							}
 						}
 					} else {
@@ -275,6 +300,8 @@ public class KlondikeBoard {
 							playCardSlideSound();
 							stacks.get(i).update();
 							stacks.get(selectedIndex).update();
+							movesCount++;
+							System.out.println("movesCount: " + movesCount);
 						}
 					}
 					break;
@@ -322,6 +349,7 @@ public class KlondikeBoard {
 		}
 
 		drawRestartButton(g);
+		drawText(g);
 	}
 
 	public boolean checkForVictory() {
@@ -348,6 +376,19 @@ public class KlondikeBoard {
 
 	public void drawRestartButton(Graphics g) {
 		g.drawImage(restartImage, 30, 630, 40, 40, null);
+	}
+
+	public void drawText(Graphics g) {
+		g.setFont(new Font("SERIF", Font.PLAIN, 20));
+		g.drawString("Moves: " + movesCount, 200, 580);
+		g.drawString("Time: " + timeInText(), 670, 580);
+	}
+	
+	private String timeInText() {
+		String seconds = "";
+		if (secondsPassed%60<10) seconds = ""+0;
+		seconds += ""+secondsPassed%60;
+		return secondsPassed/60+":"+seconds;
 	}
 
 	public void playVictorySound() {
