@@ -35,6 +35,10 @@ public class KlondikeBoard {
 	
 	private Image restartImage = openImagePath("res/images/restart.png");
 
+	private Image unmutedImage = openImagePath("res/images/restart.png");
+	
+	private boolean muted;
+
 	private Timer soundTimer;
 	private int timesSoFar;
 
